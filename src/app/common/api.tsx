@@ -1,6 +1,6 @@
 import { VideoComment, Video} from "./types"
 
-const BASE_URL = 'https://take-home-assessment-423502.uc.r.appspot.com/api';
+const BASE_URL = 'https://take-home-assessment-423502.uc.r.appspot.com/api/openapi.json';
 
 export async function getUserVideos(userId: string): Promise<Video[]> {
     const response = await fetch(`${BASE_URL}/videos?user_id=${userId}`);
