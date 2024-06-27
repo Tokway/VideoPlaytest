@@ -1,26 +1,18 @@
 # LearnWell Video Player
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped
-with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## App Functionality: The website have the following capabilities:
 
-Application specifications are from [10Fold Showcase 1](https://app.10foldhiring.com/showcase/1).
+-- Show a list of videos and allow users to select a video from the list.
 
-## Overview
+-- Allow the user to create a new video object with a title, description and a video URL.
 
-The LearnWell Video Player is a web application designed to allow users to create, comment on, and watch educational
-videos. It provides a seamless and engaging experience with intuitive UI and robust functionality.
+-- A user must be able to comment on a video and view comments from other users.
 
-## Features
+-- Open the videos in full screen with full playback functionality.
 
-- **Video Listing**: Browse a list of educational videos.
-- **Video Creation**: Create new video objects with a title, description, and video URL.
-- **Comments**: Add and view comments on videos.
-- **Full Screen Playback**: Enjoy videos in full screen with full playback functionality.
-- **Playback Controls**: Adjust playback speed and volume for a tailored viewing experience.
+-- Include options for adjusting playback speed and volume.
 
 ## Getting Started
-
-First, run the development server:
 
 ```
 npm run dev
@@ -46,4 +38,12 @@ This application consumes the following API: https://take-home-assessment-423502
   Smith: john_smith).
 - **Comments**: Use any fake `user_id` for making comments.
 - **Video URLs**: Upload example video URLs for testing.
+## Main page
+![alt text](image.png)
+
+## Upload
+![alt text](image-1.png) 
+
+## Video player and comments
+![alt text](image-2.png)
 
