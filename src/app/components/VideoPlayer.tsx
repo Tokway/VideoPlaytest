@@ -1,59 +1,56 @@
 import React, { useEffect, useRef } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import Player from "video.js/dist/types/player";
 
-export const VideoPlayer = (props:any) => {
-    const videoRef = useRef<HTMLDivElement|null>(null);
-    const playerRef = useRef<Player|null>(null);
-    const { options, onReady } = props;
+interface VideoPlayerProps {
+    options: videojs.PlayerOptions;
+    onReady?: (player: videojs.Player) => void;
+}
+
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ options, onReady }) => {
+    const videoRef = useRef<HTMLDivElement | null>(null);
+    const playerRef = useRef<videojs.Player | null>(null);
 
     useEffect(() => {
-
-        // Make sure Video.js player is only initialized once
         if (!playerRef.current) {
-            // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
-            const videoElement = document.createElement("video-js");
-
+            const videoElement = document.createElement('video-js');
             videoElement.classList.add('vjs-big-play-centered');
-            if (videoRef && videoRef.current){
+            videoElement.classList.add('w-full'); // Tailwind CSS class for responsive width
+
+            if (videoRef.current) {
                 videoRef.current.appendChild(videoElement);
             }
 
-            const player = playerRef.current = videojs(videoElement, options, () => {
-                videojs.log('player is ready');
-                onReady && onReady(player);
-            });
-
-            // You could update an existing player in the `else` block here
-            // on prop change, for example:
+            const player = (playerRef.current = videojs(videoElement, options, () => {
+                videojs.log('Player is ready');
+                if (onReady) {
+                    onReady(player);
+                }
+            }));
         } else {
             const player = playerRef.current;
-            if(player){
-                player.autoplay(options.autoplay);
-                player.src(options.sources);
-
+            if (player) {
+                player.autoplay(options.autoplay || false);
+                player.src(options.sources || []);
             }
         }
-    }, [options, videoRef, onReady]);
+    }, [options, onReady]);
 
-    // Dispose the Video.js player when the functional component unmounts
-    React.useEffect(() => {
+    useEffect(() => {
         const player = playerRef.current;
-
         return () => {
             if (player && !player.isDisposed()) {
                 player.dispose();
                 playerRef.current = null;
             }
         };
-    }, [playerRef]);
+    }, []);
 
     return (
-        <div data-vjs-player>
-            <div ref={videoRef}/>
+        <div data-vjs-player className="flex justify-center items-center w-full h-full">
+            <div ref={videoRef} className="w-full h-full max-w-screen-lg" />
         </div>
     );
-}
+};
 
 export default VideoPlayer;

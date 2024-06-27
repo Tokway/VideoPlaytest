@@ -8,7 +8,7 @@ interface LayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: "LearnWell: Your Educational Video Platform",
+    title: "LearnWell Video Platform",
     description: "LearnWell is a dynamic platform for creating, viewing, and engaging with educational videos. " +
         "Educators can easily share content, and students can effortlessly explore and comment on videos. " +
         "Transform your learning experience with LearnWell.",

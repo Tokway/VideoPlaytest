@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
 import { useState } from "react";
 import UploadModal from './UploadModal';
 import Search from "./Search";
 import { createVideo } from "../common/api";
-import { Video} from "../common/types";
+import { Video } from "../common/types";
 import { USER_ID } from "../common/fakeauth";
 
 const NavBar = () => {
@@ -28,18 +28,27 @@ const NavBar = () => {
         }
     };
 
-
     return (
-        <nav className="p-4 fixed top-0 w-full z-50 bg-white">
-            <div className="container mx-auto flex justify-between items-center">
-                <Search />
-                <div>
-                    <Link href="/"><Image src="/images/FULL_LOGO_COLOR.png" alt="LearnWell Logo" width={157.5} height={43.5} priority={true} /></Link>
+        <nav className="p-4 fixed top-0 w-full z-50 bg-white shadow-md flex items-center justify-between">
+            <div className="container mx-auto flex items-center justify-between">
+                <div className="flex items-center">
+                    <Link href="/">
+                        <Image 
+                            src="/images/FULL_LOGO_COLOR.png" 
+                            alt="LearnWell Logo" 
+                            width={157.5} 
+                            height={43.5} 
+                            priority={true} 
+                        />
+                    </Link>
                 </div>
-                <div className="space-x-4 flex items-center  ">
+                <div className="flex-grow items-center max-w-lg mx-4">
+                    <Search />
+                </div>
+                <div className="flex items-center space-x-4">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="px-4 py-2 rounded-full bg-blue-500 font-bold text-white"
+                        className="px-4 py-2 rounded-full bg-emerald-500 font-bold text-white"
                     >
                         Upload
                     </button>

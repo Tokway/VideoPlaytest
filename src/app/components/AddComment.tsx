@@ -8,24 +8,38 @@ interface AddCommentProps {
     onCommentAdded: () => void;
 }
 
+interface Comment {
+    video_id: string;
+    user_id: string;
+    content: string;
+}
+
 const AddComment: React.FC<AddCommentProps> = ({ videoId, onCommentAdded }) => {
     const [content, setContent] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (event: React.FormEvent) => {
-        console.log("comment submit")
         event.preventDefault();
 
+        setLoading(true);
+        setError(null);
+
         try {
-            void await createComment({ video_id: videoId, user_id: USER_ID, content });
+            const comment: Comment = { video_id: videoId, user_id: USER_ID, content };
+            await createComment(comment);
             onCommentAdded();
             setContent('');
         } catch (error) {
             console.error('Error adding comment:', error);
+            setError('Failed to add comment. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center space-x-4 ">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-4">
             <div className="relative flex items-center flex-grow">
                 <ChatBubbleLeftEllipsisIcon className="h-5 w-5 text-gray-500 absolute left-3" />
                 <input
@@ -33,15 +47,18 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId, onCommentAdded }) => {
                     placeholder="Your comment."
                     onChange={(e) => setContent(e.target.value)}
                     required
-                    className="pl-10 pr-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-blue-500 focus:border-blue-500 w-full sm:text-sm"
+                    className="pl-10 pr-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 w-full sm:text-sm"
+                    disabled={loading}
                 />
             </div>
             <button
                 type="submit"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-emerald-500 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                disabled={loading}
             >
-                Comment
+                {loading ? 'Commenting...' : 'Comment'}
             </button>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
         </form>
     );
 };

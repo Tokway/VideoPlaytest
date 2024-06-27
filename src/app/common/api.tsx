@@ -1,4 +1,4 @@
-import { VideoComment, Video} from "./types"
+import { VideoComment, Video } from "./types";
 
 const BASE_URL = 'https://take-home-assessment-423502.uc.r.appspot.com/api';
 const userId = 'yurii_kravchenko';
@@ -8,7 +8,7 @@ export async function getUserVideos(userId: string): Promise<Video[]> {
     if (!response.ok) {
         throw new Error('Failed to fetch videos');
     }
-    return  (await response.json())["videos"];
+    return (await response.json())["videos"];
 }
 
 export async function getSingleVideo(videoId: string): Promise<Video> {
@@ -67,4 +67,13 @@ export async function createComment(comment: Omit<VideoComment, 'id' | 'created_
         throw new Error('Failed to create comment');
     }
     return await response.json();
+}
+
+// Новая функция для поиска видео
+export async function searchVideos(query: string): Promise<Video[]> {
+    const response = await fetch(`${BASE_URL}/videos/search?q=${encodeURIComponent(query)}`);
+    if (!response.ok) {
+        throw new Error('Failed to search videos');
+    }
+    return (await response.json())["videos"];
 }
