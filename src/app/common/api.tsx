@@ -1,18 +1,18 @@
-import { VideoComment, Video } from "./types";
+import { VideoComment, Video} from "./types"
 
 const BASE_URL = 'https://take-home-assessment-423502.uc.r.appspot.com/api';
 const userId = 'yurii_kravchenko';
 
 export async function getUserVideos(userId: string): Promise<Video[]> {
-    const response = await fetch(`/api/cors?url=${encodeURIComponent(`${BASE_URL}/videos?user_id=${userId}`)}`);
+    const response = await fetch(`${BASE_URL}/videos?user_id=${userId}`);
     if (!response.ok) {
         throw new Error('Failed to fetch videos');
     }
-    return (await response.json())["videos"];
+    return  (await response.json())["videos"];
 }
 
 export async function getSingleVideo(videoId: string): Promise<Video> {
-    const response = await fetch(`/api/cors?url=${encodeURIComponent(`${BASE_URL}/videos/single?video_id=${videoId}`)}`);
+    const response = await fetch(`${BASE_URL}/videos/single?video_id=${videoId}`);
     if (!response.ok) {
         throw new Error('Failed to fetch video');
     }
@@ -20,19 +20,12 @@ export async function getSingleVideo(videoId: string): Promise<Video> {
 }
 
 export async function createVideo(video: Omit<Video, 'id' | 'created_at' | 'num_comments'>): Promise<Video> {
-    const response = await fetch('/api/cors', {
+    const response = await fetch(`${BASE_URL}/videos`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            url: `${BASE_URL}/videos`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(video)
-        })
+        body: JSON.stringify(video)
     });
     if (!response.ok) {
         throw new Error('Failed to create video');
@@ -41,19 +34,12 @@ export async function createVideo(video: Omit<Video, 'id' | 'created_at' | 'num_
 }
 
 export async function editVideo(video: Omit<Video, 'created_at' | 'num_comments'>): Promise<Video> {
-    const response = await fetch('/api/cors', {
-        method: 'POST',
+    const response = await fetch(`${BASE_URL}/videos`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            url: `${BASE_URL}/videos`,
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(video)
-        })
+        body: JSON.stringify(video)
     });
     if (!response.ok) {
         throw new Error('Failed to edit video');
@@ -62,7 +48,7 @@ export async function editVideo(video: Omit<Video, 'created_at' | 'num_comments'
 }
 
 export async function getVideoComments(videoId: string): Promise<VideoComment[]> {
-    const response = await fetch(`/api/cors?url=${encodeURIComponent(`${BASE_URL}/videos/comments?video_id=${videoId}`)}`);
+    const response = await fetch(`${BASE_URL}/videos/comments?video_id=${videoId}`);
     if (!response.ok) {
         throw new Error('Failed to fetch comments');
     }
@@ -70,19 +56,12 @@ export async function getVideoComments(videoId: string): Promise<VideoComment[]>
 }
 
 export async function createComment(comment: Omit<VideoComment, 'id' | 'created_at'>): Promise<VideoComment> {
-    const response = await fetch('/api/cors', {
+    const response = await fetch(`${BASE_URL}/videos/comments`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            url: `${BASE_URL}/videos/comments`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(comment)
-        })
+        body: JSON.stringify(comment)
     });
     if (!response.ok) {
         throw new Error('Failed to create comment');
